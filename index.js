@@ -66,8 +66,15 @@ module.exports = function(file, opt) {
       concat = new Concat(isUsingSourceMaps, fileName, opt.newLine);
     }
 
+    var content = file.contents;
+
+    if (typeof opt.wrapContent === "function")
+      content = opt.wrapContent(file.contents, file);
+    else if(typeof opt.wrapContent !== "undefined")
+      content = (opt.wrapContent.before || "") + content + (opt.wrapContent.after || "");
+
     // add file to concat instance
-    concat.add(file.relative, file.contents, file.sourceMap);
+    concat.add(file.relative, content, file.sourceMap);
     cb();
   }
 

@@ -56,6 +56,23 @@ For instance:
 .pipe(concat('main.js', {newLine: ';'}))
 ```
 
+To set each file wrapping content use wrapContent option as function:
+
+```js
+.pipe(concat('templates.hbs', {
+            wrapContent: function (content, file) {
+                return '<script type="text/x-handlebars-template" id="' + file.relative + '">' +
+                    content +
+                    '</script>'
+            }
+        })
+```
+
+or set text fields before and after:
+```js
+.pipe(concat('templates.hbs', { wrapContent: {before: 'before text', after: 'after text'} })
+```
+
 To specify `cwd`, `path` and other [vinyl](https://github.com/wearefractal/vinyl) properties, gulp-concat accepts `Object` as first argument:
 
 ```js
